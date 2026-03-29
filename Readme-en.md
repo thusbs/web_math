@@ -1,4 +1,4 @@
-# Web Tool - Online Navigation
+# web_math - Online Navigation
 
 [中文文档](./README.md)
 
@@ -13,11 +13,10 @@ A web navigation tool based on HTML + CSS + JavaScript, with a clean and beautif
 - URL submission feature for easy management
 - Simple deployment, supports multiple deployment methods
 
-## Live Demo
+## Project Links
 
-- GitHub Pages: https://geeeeeeeek.github.io/web_tool/
-- Vercel: https://web-tool-omega.vercel.app/
-- Cloudflare Pages: https://web-a55.pages.dev/
+- GitHub Repository: https://github.com/thusbs/web_math
+- GitHub Pages (if enabled): https://thusbs.github.io/web_math/
 
 ## Quick Start
 
@@ -25,8 +24,8 @@ A web navigation tool based on HTML + CSS + JavaScript, with a clean and beautif
 
 1. Clone the repository
 ```bash
-git clone https://github.com/geeeeeeeek/web_tool.git
-cd web_tool
+git clone https://github.com/thusbs/web_math.git
+cd web_math
 ```
 
 2. Run with any HTTP server
@@ -65,14 +64,14 @@ Upload project files to the server:
 
 ```bash
 # Create website directory
-sudo mkdir -p /var/www/web_tool
+sudo mkdir -p /var/www/web_math
 
 # Upload files (run locally)
-scp -r ./* user@your-server:/var/www/web_tool/
+scp -r ./* user@your-server:/var/www/web_math/
 
 # Or use git clone on server
 cd /var/www
-sudo git clone https://github.com/geeeeeeeek/web_tool.git
+sudo git clone https://github.com/thusbs/web_math.git
 ```
 
 #### 3. Configure Nginx
@@ -80,7 +79,7 @@ sudo git clone https://github.com/geeeeeeeek/web_tool.git
 Create Nginx configuration file:
 
 ```bash
-sudo vim /etc/nginx/sites-available/web_tool
+sudo vim /etc/nginx/sites-available/web_math
 ```
 
 Add the following configuration:
@@ -90,7 +89,7 @@ server {
     listen 80;
     server_name your-domain.com;  # Change to your domain or server IP
 
-    root /var/www/web_tool;
+    root /var/www/web_math;
     index index.html;
 
     # Enable gzip compression
@@ -119,7 +118,7 @@ server {
 
 ```bash
 # Create symbolic link to enable site
-sudo ln -s /etc/nginx/sites-available/web_tool /etc/nginx/sites-enabled/
+sudo ln -s /etc/nginx/sites-available/web_math /etc/nginx/sites-enabled/
 
 # Test configuration
 sudo nginx -t
@@ -158,7 +157,7 @@ Vercel provides free static website hosting with simple and fast deployment.
 
 3. Import your GitHub repository
    - Select "Import Git Repository"
-   - Authorize GitHub and select `web_tool` repository
+   - Authorize GitHub and select `web_math` repository
 
 4. Configure project
    - Framework Preset: Select "Other"
@@ -187,7 +186,7 @@ vercel login
 3. Deploy from project directory
 
 ```bash
-cd web_tool
+cd web_math
 vercel
 ```
 
@@ -195,7 +194,7 @@ vercel
    - Set up and deploy? Y
    - Which scope? Select your account
    - Link to existing project? N
-   - Project name? web_tool (or custom name)
+   - Project name? web_math (or custom name)
    - In which directory is your code located? ./
 
 5. Production deployment
@@ -333,7 +332,7 @@ Add new category blocks in `index.html`:
 ## Project Structure
 
 ```
-web_tool/
+web_math/
 ├── index.html              # Homepage
 ├── commit.html             # URL submission page
 ├── 404.html               # 404 error page
@@ -400,9 +399,8 @@ Issues and Pull Requests are welcome!
 
 ## Contact
 
-- GitHub: https://github.com/geeeeeeeek
-- Website: https://web.gitapp.cn
-- Email: kefu308@gmail.com
+- GitHub: https://github.com/thusbs
+- Repository: https://github.com/thusbs/web_math
 
 ---
 
