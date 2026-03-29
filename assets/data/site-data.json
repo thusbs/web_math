@@ -1,0 +1,169 @@
+{
+  "meta": {
+    "author": "thusbs / Topmkter",
+    "updated": "2026-03-29",
+    "repo": "https://github.com/thusbs/web_math"
+  },
+  "cards": [
+    {"id":"arxiv","group":"research","kind":"预印本","title":"arXiv Math","summary":"数学预印本总入口。","url":"https://arxiv.org/archive/math","official":true,"tags":["研究","预印本"],"fields":["数学"],"useCases":["检索","最新"]},
+    {"id":"zbmath","group":"research","kind":"综述数据库","title":"zbMATH Open","summary":"数学文献检索与评论数据库。","url":"https://zbmath.org/","publisher":"EMS","official":true,"tags":["研究","官方"],"fields":["数学"],"useCases":["检索","综述"]},
+    {"id":"mathscinet","group":"research","kind":"综述数据库","title":"MathSciNet","summary":"AMS 的数学文献数据库。","url":"https://mathscinet.ams.org/mathscinet","publisher":"AMS","official":true,"tags":["研究","官方"],"fields":["数学"],"useCases":["检索","引用"]},
+    {"id":"oeis","group":"research","kind":"序列库","title":"OEIS","summary":"整数序列查询入口。","url":"https://oeis.org/","official":true,"tags":["研究","整数序列"],"fields":["组合","数论"],"useCases":["检索"]},
+    {"id":"spaces-ac","group":"research","kind":"学术社区","title":"MathOverflow","summary":"研究者常用的数学问答社区。","url":"https://mathoverflow.net/","official":false,"tags":["研究","社区","中文社区"],"fields":["数学"],"useCases":["问答","搜索"]},
+    {"id":"crossref-search","group":"research","kind":"DOI 工具","title":"Crossref Search","summary":"快速核对论文元数据。","url":"https://search.crossref.org/","official":true,"tags":["研究","BibTeX"],"fields":["论文"],"useCases":["搜索","引用"]},
+    {"id":"openalex","group":"research","kind":"开放学术图谱","title":"OpenAlex","summary":"开放的论文与作者图谱。","url":"https://openalex.org/","official":true,"tags":["研究","开放数据"],"fields":["论文"],"useCases":["搜索","引用"]},
+    {"id":"web-of-science-mjl","group":"ranking","kind":"收录核验","title":"Web of Science Master Journal List","summary":"核验收录状态时优先先看这里。","url":"https://mjl.clarivate.com/home","publisher":"Clarivate","official":true,"tags":["分区","官方"],"fields":["期刊"],"useCases":["投稿","核验"]},
+    {"id":"jcr","group":"ranking","kind":"期刊指标","title":"Journal Citation Reports","summary":"查询影响因子和指标的标准入口之一。","url":"https://jcr.clarivate.com/","publisher":"Clarivate","official":true,"tags":["分区","影响因子"],"fields":["期刊"],"useCases":["投稿"]},
+    {"id":"letpub","group":"ranking","kind":"投稿辅助","title":"LetPub Journal Selector","summary":"投稿辅助站，适合做第二层参考。","url":"https://www.letpub.com.cn/index.php?page=journalapp","official":false,"tags":["分区","投稿"],"fields":["期刊"],"useCases":["投稿","对比"]},
+    {"id":"annals","group":"top-journals","kind":"期刊","title":"Annals of Mathematics","summary":"纯数学顶刊之一。","url":"https://annals.math.princeton.edu/","abbreviation":"Ann. Math.","publisher":"Princeton","official":true,"tags":["顶刊","综合"],"fields":["代数","几何","分析"]},
+    {"id":"inventiones","group":"top-journals","kind":"期刊","title":"Inventiones Mathematicae","summary":"Springer 旗下顶级综合数学期刊。","url":"https://link.springer.com/journal/222","abbreviation":"Invent. Math.","publisher":"Springer","official":true,"tags":["顶刊","综合"],"fields":["代数","几何","分析"]},
+    {"id":"jams","group":"top-journals","kind":"期刊","title":"Journal of the American Mathematical Society","summary":"AMS 的顶级综合数学期刊。","url":"https://www.ams.org/journals/jams/","abbreviation":"JAMS","publisher":"AMS","official":true,"tags":["顶刊","综合"],"fields":["代数","几何","分析"]},
+    {"id":"acta","group":"top-journals","kind":"期刊","title":"Acta Mathematica","summary":"老牌顶刊，适合追踪高影响力论文。","url":"https://www.springer.com/journal/11511","abbreviation":"Acta Math.","publisher":"Springer","official":true,"tags":["顶刊","综合"],"fields":["代数","几何","分析"]},
+    {"id":"adv-math","group":"general-journals","kind":"期刊","title":"Advances in Mathematics","summary":"常用综合数学期刊。","url":"https://www.sciencedirect.com/journal/advances-in-mathematics","abbreviation":"Adv. Math.","publisher":"Elsevier","official":true,"tags":["综合"],"fields":["代数","几何","分析"]},
+    {"id":"trans-ams","group":"general-journals","kind":"期刊","title":"Transactions of the AMS","summary":"AMS 的经典综合数学期刊。","url":"https://www.ams.org/tran/","abbreviation":"Trans. AMS","publisher":"AMS","official":true,"tags":["综合"],"fields":["代数","几何","分析"]},
+    {"id":"jde","group":"pde-journals","kind":"期刊","title":"Journal of Differential Equations","summary":"PDE 方向高频目标期刊。","url":"https://www.sciencedirect.com/journal/journal-of-differential-equations","abbreviation":"JDE","publisher":"Elsevier","official":true,"tags":["PDE"],"fields":["PDE","分析"]},
+    {"id":"cpde","group":"pde-journals","kind":"期刊","title":"Communications in Partial Differential Equations","summary":"偏微分方程理论方向的重要期刊。","url":"https://www.tandfonline.com/journals/lpde20","abbreviation":"CPDE","publisher":"Taylor & Francis","official":true,"tags":["PDE"],"fields":["PDE","分析"]},
+    {"id":"calcvar","group":"pde-journals","kind":"期刊","title":"Calculus of Variations and Partial Differential Equations","summary":"变分法与 PDE 交叉方向核心期刊。","url":"https://link.springer.com/journal/550","abbreviation":"Calc. Var.","publisher":"Springer","official":true,"tags":["PDE","OA"],"fields":["PDE","变分法"]},
+    {"id":"apde","group":"pde-journals","kind":"期刊","title":"Analysis & PDE","summary":"分析与 PDE 交叉强刊。","url":"https://msp.org/apde/about/journal/about.html","abbreviation":"Anal. PDE","publisher":"MSP","official":true,"tags":["PDE","OA"],"fields":["PDE","分析"]},
+    {"id":"gmail","group":"mail","kind":"邮箱","title":"Gmail","summary":"投稿和注册邮件的常用入口。","url":"https://mail.google.com/","publisher":"Google","official":true,"tags":["工作流"]},
+    {"id":"icloud-mail","group":"mail","kind":"邮箱","title":"iCloud Mail","summary":"Apple 邮箱入口。","url":"https://www.icloud.com/mail","publisher":"Apple","official":true,"tags":["工作流"]},
+    {"id":"topmkter-mail","group":"mail","kind":"邮箱","title":"Personal Mail","summary":"个人邮箱占位入口，可按需替换。","url":"https://outlook.live.com/mail/","publisher":"Microsoft","official":true,"tags":["工作流"]},
+    {"id":"qq-mail","group":"mail","kind":"邮箱","title":"QQ Mail","summary":"国内常用邮箱入口。","url":"https://mail.qq.com/","publisher":"Tencent","official":true,"tags":["工作流","中文社区"]},
+    {"id":"latex-project","group":"latex-tools","kind":"LaTeX","title":"LaTeX Project","summary":"LaTeX 官方站。","url":"https://www.latex-project.org/","official":true,"tags":["LaTeX","官方"]},
+    {"id":"ctan","group":"latex-tools","kind":"LaTeX","title":"CTAN","summary":"查宏包文档和模板的核心入口。","url":"https://ctan.org/","official":true,"tags":["LaTeX","模板","官方"]},
+    {"id":"overleaf","group":"latex-tools","kind":"LaTeX","title":"Overleaf","summary":"云端编辑与协作入口。","url":"https://www.overleaf.com/","official":true,"tags":["LaTeX","编辑器","模板"]},
+    {"id":"texstudio","group":"latex-tools","kind":"LaTeX","title":"TeXstudio","summary":"本地 LaTeX 编辑器入口。","url":"https://www.texstudio.org/","official":true,"tags":["LaTeX","编辑器"]},
+    {"id":"jabref","group":"latex-tools","kind":"LaTeX","title":"JabRef","summary":"BibTeX 文献库管理工具。","url":"https://www.jabref.org/","official":true,"tags":["LaTeX","BibTeX"]},
+    {"id":"beamer-template","group":"latex-templates","kind":"模板","title":"Beamer Templates","summary":"报告和答辩模板入口。","url":"https://www.overleaf.com/latex/templates/tagged/presentation","official":true,"tags":["LaTeX","模板"]},
+    {"id":"terry-tao","group":"blog-math","kind":"博客","title":"Terry Tao Blog","summary":"覆盖分析、PDE、组合等方向的高质量数学博客。","url":"https://terrytao.wordpress.com/","official":false,"tags":["数学博客"],"fields":["分析","PDE"]},
+    {"id":"stacks-project","group":"blog-notes","kind":"研究笔记","title":"Stacks Project","summary":"代数几何与交换代数的大型在线参考书。","url":"https://stacks.math.columbia.edu/","official":true,"tags":["研究笔记"],"fields":["代数几何","交换代数"]},
+    {"id":"kevin-buzzard","group":"blog-personal","kind":"个人站点","title":"Kevin Buzzard","summary":"数论与形式化数学相关的个人站点。","url":"https://xenaproject.wordpress.com/","official":false,"tags":["个人站点"],"fields":["数论","形式化"]},
+    {"id":"chatgpt","group":"ai-global","kind":"AI 模型","title":"ChatGPT","summary":"适合写作、代码阅读和长文档整理。","url":"https://chatgpt.com/","publisher":"OpenAI","official":true,"tags":["搜索","API"],"useCases":["写作","编程","长文档"]},
+    {"id":"claude","group":"ai-global","kind":"AI 模型","title":"Claude","summary":"长文档阅读与论文润色很顺手。","url":"https://claude.ai/","publisher":"Anthropic","official":true,"tags":["API"],"useCases":["写作","编程","长文档"]},
+    {"id":"qwen","group":"ai-china","kind":"AI 模型","title":"Qwen","summary":"中文能力稳定，适合国内资料整理和 API 调用。","url":"https://chat.qwen.ai/","publisher":"Alibaba","official":true,"tags":["中文社区","中文"],"useCases":["写作","编程","API"]},
+    {"id":"deepseek","group":"ai-china","kind":"AI 模型","title":"DeepSeek","summary":"推理和代码性价比高。","url":"https://chat.deepseek.com/","publisher":"DeepSeek","official":true,"tags":["中文社区","中文"],"useCases":["编程","API","写作"]},
+    {"id":"openai-api","group":"ai-platform","kind":"平台","title":"OpenAI Platform","summary":"模型 API、控制台和开发文档入口。","url":"https://platform.openai.com/","publisher":"OpenAI","official":true,"tags":["API"],"useCases":["API","编程"]},
+    {"id":"mathpix","group":"ai-math","kind":"AI + 数学","title":"Mathpix","summary":"公式 OCR 与 LaTeX 转换工具。","url":"https://mathpix.com/","official":true,"tags":["数学","OCR"],"useCases":["数学","OCR"]},
+    {"id":"wolframalpha","group":"ai-math","kind":"AI + 数学","title":"Wolfram|Alpha","summary":"符号计算和数值结果的高频入口。","url":"https://www.wolframalpha.com/","official":true,"tags":["数学","搜索"],"useCases":["数学","搜索"]}
+  ],
+  "journalCompare": [
+    {"cardId":"annals","focus":"综合数学","oa":"否","verification":["官网","MathSciNet","JCR"]},
+    {"cardId":"inventiones","focus":"综合数学","oa":"混合","verification":["官网","MathSciNet","JCR"]},
+    {"cardId":"jams","focus":"综合数学","oa":"否","verification":["官网","MathSciNet","JCR"]},
+    {"cardId":"acta","focus":"综合数学","oa":"混合","verification":["官网","MathSciNet","JCR"]},
+    {"cardId":"adv-math","focus":"综合数学","oa":"混合","verification":["官网","MathSciNet","SCImago"]},
+    {"cardId":"jde","focus":"PDE","oa":"混合","verification":["官网","MathSciNet","JCR"]},
+    {"cardId":"cpde","focus":"PDE","oa":"混合","verification":["官网","MathSciNet","SCImago"]},
+    {"cardId":"calcvar","focus":"PDE / 变分法","oa":"混合","verification":["官网","MathSciNet","JCR"]},
+    {"cardId":"apde","focus":"PDE / 分析","oa":"部分开放","verification":["官网","MathSciNet","SCImago"]}
+  ],
+  "quickSearchEngines": [
+    {"name":"arXiv","template":"https://arxiv.org/search/?query={query}&searchtype=all"},
+    {"name":"zbMATH","template":"https://zbmath.org/?q={query}"},
+    {"name":"Google Scholar","template":"https://scholar.google.com/scholar?q={query}"},
+    {"name":"MathSciNet","template":"https://mathscinet.ams.org/mathscinet/search/publications.html?pg1=ALLF&s1={query}"},
+    {"name":"OEIS","template":"https://oeis.org/search?q={query}"}
+  ],
+  "submissionGuide": {
+    "steps": [
+      {"title":"先看官网 scope 和作者指南","body":"不要先看第三方分区，先确认期刊官网的主题范围、文章类型和投稿格式。","linkIds":["annals","jams","cpde"]},
+      {"title":"再核对正式收录与指标","body":"收录状态优先看 Master Journal List，影响因子和 SJR 用来做补充参考。","linkIds":["web-of-science-mjl","jcr","letpub"]},
+      {"title":"对照近年论文是否匹配","body":"用 zbMATH 和 MathSciNet 查近三年的文章标题、关键词和参考文献结构。","linkIds":["zbmath","mathscinet"]},
+      {"title":"把引用和模板准备好","body":"投稿前先整理好 BibTeX 条目、模板和 LaTeX 包依赖。","linkIds":["crossref-search","openalex","jabref","overleaf"]}
+    ]
+  },
+  "subjects": [
+    {
+      "id": "algebra",
+      "kind": "方向",
+      "title": "代数学",
+      "summary": "以群、环、域与同态为主线的基础书架。",
+      "books": [
+        {"title":"Abstract Algebra","author":"Dummit and Foote","note":"群、环、域标准主教材"},
+        {"title":"Algebra","author":"Michael Artin","note":"从线性代数过渡到抽象代数很顺"},
+        {"title":"Algebra","author":"Serge Lang","note":"覆盖广，适合做进阶参考"}
+      ],
+      "links": [
+        {"title":"MIT OCW Algebra Search","summary":"MIT 数学课程里的代数相关入口。","url":"https://ocw.mit.edu/search/?d=Mathematics&q=algebra"},
+        {"title":"Harvard Math Courses","summary":"用作补充搜索代数课程与讲义。","url":"https://www.math.harvard.edu/graduate/studies/courses/"}
+      ]
+    },
+    {
+      "id": "analysis",
+      "kind": "方向",
+      "title": "分析学",
+      "summary": "实分析、泛函分析与测度论的基础入口。",
+      "books": [
+        {"title":"Real and Complex Analysis","author":"Walter Rudin","note":"经典中的经典"},
+        {"title":"Real Analysis","author":"Folland","note":"测度与积分论更系统"},
+        {"title":"Analysis I","author":"Terry Tao","note":"讲解现代、适合自学"}
+      ],
+      "links": [
+        {"title":"Tao Analysis Books","summary":"Tao 的分析教材与相关说明。","url":"https://terrytao.wordpress.com/books/analysis-i/"},
+        {"title":"MIT Analysis Search","summary":"MIT 数学课程里的分析相关入口。","url":"https://ocw.mit.edu/search/?d=Mathematics&q=analysis"}
+      ]
+    },
+    {
+      "id": "pde",
+      "kind": "方向",
+      "title": "偏微分方程",
+      "summary": "围绕弱解、正则性与椭圆抛物型方程的学习入口。",
+      "books": [
+        {"title":"Partial Differential Equations","author":"Lawrence C. Evans","note":"PDE 主教材"},
+        {"title":"Tools for PDE","author":"Michael Taylor","note":"偏分析工具链补充"},
+        {"title":"Elliptic Partial Differential Equations of Second Order","author":"Gilbarg and Trudinger","note":"椭圆 PDE 经典"}
+      ],
+      "links": [
+        {"title":"MIT PDE Search","summary":"MIT 数学课程里的 PDE 相关入口。","url":"https://ocw.mit.edu/search/?d=Mathematics&q=partial+differential+equations"},
+        {"title":"Tao PDE Notes","summary":"Tao 主页上的 PDE 相关书目与笔记入口。","url":"https://terrytao.wordpress.com/books/nonlinear-dispersive-equations-local-and-global-analysis/"}
+      ]
+    },
+    {
+      "id": "probability",
+      "kind": "方向",
+      "title": "概率论",
+      "summary": "从基础概率到随机过程和极限定理的常见入口。",
+      "books": [
+        {"title":"Probability: Theory and Examples","author":"Rick Durrett","note":"概率论系统教材"},
+        {"title":"Probability with Martingales","author":"David Williams","note":"鞅方法入门书"},
+        {"title":"Convergence of Probability Measures","author":"Billingsley","note":"弱收敛方向经典"}
+      ],
+      "links": [
+        {"title":"Stat 110","summary":"Harvard 概率论公开课程主页。","url":"https://projects.iq.harvard.edu/stat110/home"},
+        {"title":"MIT Probability Search","summary":"MIT 数学课程里的概率相关入口。","url":"https://ocw.mit.edu/search/?d=Mathematics&q=probability"}
+      ]
+    }
+  ],
+  "latexFormulas": [
+    {
+      "title": "对齐与编号",
+      "rows": [
+        {"symbol":"多行对齐","command":"\\begin{align} ... \\end{align}","note":"多行公式最常用环境"},
+        {"symbol":"无编号组","command":"\\begin{gather*} ... \\end{gather*}","note":"适合展示而不编号"},
+        {"symbol":"分段函数","command":"\\begin{cases} ... \\end{cases}","note":"定义分段函数时很常用"}
+      ]
+    },
+    {
+      "title": "常见符号",
+      "rows": [
+        {"symbol":"实数域","command":"\\mathbb{R}","note":"需要 amsfonts 或 amssymb"},
+        {"symbol":"sigma 代数","command":"\\mathcal{F}","note":"花体符号常用于结构对象"},
+        {"symbol":"梯度","command":"\\nabla u","note":"分析和 PDE 高频符号"}
+      ]
+    }
+  ],
+  "tikzGallery": [
+    {"title":"TeXample TikZ Examples","summary":"按主题浏览 TikZ 例图。","url":"https://texample.net/tikz/examples/","kind":"TikZ","tags":["图形","例子"]},
+    {"title":"Quiver","summary":"快速画交换图并导出 tikz-cd 代码。","url":"https://q.uiver.app/","kind":"TikZ","tags":["交换图","范畴论"]}
+  ],
+  "aiComparison": [
+    {"cardId":"chatgpt","supportsChinese":"强","api":"成熟","coding":"强","longDocs":"强","note":"通用能力均衡，适合数学写作与代码解释"},
+    {"cardId":"claude","supportsChinese":"强","api":"成熟","coding":"强","longDocs":"很强","note":"长文档整理和风格保持稳定"},
+    {"cardId":"qwen","supportsChinese":"很强","api":"成熟","coding":"中上","longDocs":"中上","note":"中文体验稳定，适合国内资料整理"},
+    {"cardId":"deepseek","supportsChinese":"很强","api":"成熟","coding":"强","longDocs":"中上","note":"代码和推理性价比高"}
+  ],
+  "promptTemplates": [
+    {"id":"proof-outline","kind":"数学证明","title":"证明结构拆解","summary":"把命题拆成假设、目标、关键引理和证明主线。","prompt":"你是一名数学研究助理。请把下面命题整理成证明草稿，按“已知条件、目标、关键工具、证明主线、可能卡点”五部分输出，并保持原有数学符号不变。"},
+    {"id":"latex-cleanup","kind":"LaTeX","title":"LaTeX 清理","summary":"整理导言区、环境、标签与公式排版。","prompt":"请检查下面的 LaTeX 片段，按“语法错误、环境问题、可读性、可维护性”四类给出修改建议；若能直接修正，请返回一份整理后的版本。"}
+  ]
+}

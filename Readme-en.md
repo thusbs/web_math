@@ -1,112 +1,259 @@
-# web_math - Online Navigation
+# web_math
 
 [中文文档](./README.md)
 
-A web navigation tool based on HTML + CSS + JavaScript, with a clean and beautiful interface, supporting URL submission and suitable for personal or team use.
+`web_math` is a fully static, data-driven mathematics workspace. It separates journals, subjects, LaTeX resources, blogs, and AI tools into dedicated pages, then brings favorites, recents, drag-and-drop workspace panels, and global search back to the homepage.
+
+The current site content is driven primarily by [assets/data/site-data.json](/D:/Git/web_math/assets/data/site-data.json). Rendering logic lives in [assets/js/site-core.js](/D:/Git/web_math/assets/js/site-core.js), and styling lives in [assets/css/math-academic.css](/D:/Git/web_math/assets/css/math-academic.css).
 
 ## Features
 
-- Pure static HTML pages, no backend required
-- Responsive design, mobile-friendly
-- Day/Night mode toggle
-- Clear categorization with quick search
-- URL submission feature for easy management
-- Simple deployment, supports multiple deployment methods
+- Fully static deployment, no backend required
+- JSON-first content maintenance
+- Homepage workspace with favorites, recents, and drag sorting
+- Global search, tag filters, and batch open actions
+- Journal comparison, quick search, and BibTeX helper
+- Dedicated LaTeX, blog, and AI pages
+- Light / dark theme and Chinese / English locale toggle
 
-## Project Links
+## Main Pages
 
-- GitHub Repository: https://github.com/thusbs/web_math
-- GitHub Pages (if enabled): https://thusbs.github.io/web_math/
+- [index.html](/D:/Git/web_math/index.html): homepage workspace
+- [journals.html](/D:/Git/web_math/journals.html): journal and submission tools
+- [subjects.html](/D:/Git/web_math/subjects.html): subject map and textbook shelves
+- [latex.html](/D:/Git/web_math/latex.html): LaTeX toolbox
+- [blogs.html](/D:/Git/web_math/blogs.html): blog aggregation
+- [ai.html](/D:/Git/web_math/ai.html): AI atlas
+- [404.html](/D:/Git/web_math/404.html): static 404 page
+- [assets/data/site-data.json](/D:/Git/web_math/assets/data/site-data.json): content source
 
-## Quick Start
+## Local Preview
 
-### Local Preview
+### 1. Clone the repo
 
-1. Clone the repository
 ```bash
 git clone https://github.com/thusbs/web_math.git
 cd web_math
 ```
 
-2. Run with any HTTP server
+### 2. Start a local static server
+
 ```bash
-# Using Python 3
+# Python 3
 python -m http.server 8000
 
-# Using Node.js (requires http-server)
+# Node.js
 npx http-server -p 8000
-
-# Or simply open index.html in browser
 ```
 
-3. Visit `http://localhost:8000` in your browser
+### 3. Open the site
 
-## Deployment Guide
+Visit [http://127.0.0.1:8000](http://127.0.0.1:8000) or [http://localhost:8000](http://localhost:8000).
 
-### Method 1: Nginx Deployment
+### 4. Important note
 
-#### 1. Prerequisites
+Do not open the site via `file://`. The app fetches `./assets/data/site-data.json`, so opening HTML files directly from disk will trigger load errors.
 
-Ensure Nginx is installed on your server:
+## Content Maintenance
+
+Edit [assets/data/site-data.json](/D:/Git/web_math/assets/data/site-data.json) first:
+
+- `meta`: author, updated date, repository URL
+- `cards`: site cards
+- `journalCompare`: journal comparison table
+- `quickSearchEngines`: quick search engines
+- `submissionGuide`: submission workflow
+- `subjects`: subject shelves and lecture links
+- `promptTemplates`: AI prompt templates
+
+Only edit JS / CSS when you are changing interaction, layout, theme, filters, sorting, or rendering behavior.
+
+## Deployment Overview
+
+| Option | Best for | Build step | Recommendation |
+| --- | --- | --- | --- |
+| Cloudflare Pages | Git-based static hosting | No | High |
+| Cloudflare Workers | Static assets now, edge logic later | No | High |
+| Vercel | Easy Git deployment and previews | No | High |
+| Self-hosted Nginx | Full control over server and domain | No | High |
+| GitHub Pages | Public repo static hosting | No | Optional |
+
+## Deploy on Cloudflare Pages
+
+Official docs:
+
+- [Deploy a static HTML site with Pages](https://developers.cloudflare.com/pages/framework-guides/deploy-a-static-html-site/)
+- [Direct Upload](https://developers.cloudflare.com/pages/get-started/direct-upload/)
+- [Custom Domains](https://developers.cloudflare.com/pages/configuration/custom-domains/)
+
+### Option A: Connect your Git repository
+
+1. Sign in to Cloudflare Dashboard.
+2. Go to `Workers & Pages`.
+3. Click `Create application`.
+4. Choose `Pages`.
+5. Connect the `thusbs/web_math` repository.
+6. Configure build settings:
+   - `Production branch`: `main`
+   - `Framework preset`: `None` or `No framework`
+   - `Build command`: `exit 0`
+   - `Build output directory`: the directory that contains your static site; this repo can be deployed directly from the repo root
+7. Deploy and wait for the generated `*.pages.dev` URL.
+
+If you do not want files like `README.md` to be publicly accessible from the deployment root, create a clean `dist/` directory and publish that instead.
+
+### Option B: Direct Upload with Wrangler
 
 ```bash
-# Ubuntu/Debian
+npm install -g wrangler
+wrangler login
+wrangler pages project create web-math
+wrangler pages deploy . --project-name web-math
+```
+
+Use `dist` instead of `.` if you later move the deployable site into a dedicated output folder.
+
+### Custom Domain
+
+Open the Pages project, go to `Custom domains`, add your domain, and follow Cloudflare's DNS instructions.
+
+## Deploy on Cloudflare Workers
+
+Official docs:
+
+- [Workers Static Assets](https://developers.cloudflare.com/workers/static-assets/)
+- [Wrangler Configuration](https://developers.cloudflare.com/workers/wrangler/configuration/)
+- [Workers Custom Domains](https://developers.cloudflare.com/workers/configuration/routing/custom-domains/)
+
+Use Workers if you want the static site today and the option to add edge logic or lightweight APIs later.
+
+### 1. Install and log in to Wrangler
+
+```bash
+npm install -g wrangler
+wrangler login
+```
+
+### 2. Create `wrangler.toml` in the repo root
+
+```toml
+name = "web-math"
+compatibility_date = "2026-03-29"
+
+[assets]
+directory = "."
+not_found_handling = "404-page"
+```
+
+### 3. Deploy
+
+```bash
+wrangler deploy
+```
+
+Cloudflare will return a `*.workers.dev` URL after deployment.
+
+### 4. Add a custom domain
+
+Use `Custom Domains` in the Cloudflare dashboard after deployment. If your zone is already managed by Cloudflare, DNS and certificates are handled there.
+
+## Deploy on Vercel
+
+Official docs:
+
+- [Deployments Overview](https://vercel.com/docs/deployments/overview)
+- [Vercel CLI](https://vercel.com/docs/cli)
+- [Project Configuration](https://vercel.com/docs/project-configuration)
+- [Domains](https://vercel.com/docs/domains)
+
+### Option A: Import from GitHub
+
+1. Sign in to [Vercel](https://vercel.com/).
+2. Click `Add New...` -> `Project`.
+3. Import `thusbs/web_math`.
+4. Configure the project:
+   - `Framework Preset`: `Other`
+   - `Root Directory`: repo root
+   - `Build Command`: leave empty
+   - `Output Directory`: repo root, or your dedicated static output directory if you later add one
+5. Click `Deploy`.
+
+### Option B: Vercel CLI
+
+```bash
+npm install -g vercel
+vercel login
+vercel
+vercel --prod
+```
+
+Typical answers:
+
+- `Set up and deploy`: `Y`
+- `Link to existing project`: `N` for the first deployment
+- `In which directory is your code located`: `./`
+
+### Optional `vercel.json`
+
+```json
+{
+  "$schema": "https://openapi.vercel.sh/vercel.json",
+  "cleanUrls": false,
+  "trailingSlash": false
+}
+```
+
+The current site does not require this file, but it can be useful if you want explicit project configuration.
+
+### Custom Domain
+
+Open the project in Vercel, go to `Settings` -> `Domains`, add the domain, then follow the DNS instructions provided by Vercel.
+
+## Self-hosted Deployment with Nginx
+
+If you have your own VPS, lightweight cloud server, NAS, or internal Linux machine, the simplest production setup is `Nginx + static files`.
+
+### 1. Install Nginx
+
+```bash
+# Ubuntu / Debian
 sudo apt update
 sudo apt install nginx
 
-# CentOS/RHEL
+# CentOS / Rocky / AlmaLinux
 sudo yum install nginx
 ```
 
-#### 2. Upload Files
-
-Upload project files to the server:
+### 2. Upload the project
 
 ```bash
-# Create website directory
 sudo mkdir -p /var/www/web_math
+sudo chown -R $USER:$USER /var/www/web_math
 
-# Upload files (run locally)
-scp -r ./* user@your-server:/var/www/web_math/
-
-# Or use git clone on server
-cd /var/www
-sudo git clone https://github.com/thusbs/web_math.git
+rsync -av --delete ./ /var/www/web_math/
 ```
 
-#### 3. Configure Nginx
+### 3. Configure Nginx
 
-Create Nginx configuration file:
-
-```bash
-sudo vim /etc/nginx/sites-available/web_math
-```
-
-Add the following configuration:
+Create `/etc/nginx/conf.d/web_math.conf`:
 
 ```nginx
 server {
     listen 80;
-    server_name your-domain.com;  # Change to your domain or server IP
+    server_name math.example.com;
 
     root /var/www/web_math;
     index index.html;
 
-    # Enable gzip compression
-    gzip on;
-    gzip_types text/plain text/css application/json application/javascript text/xml application/xml application/xml+rss text/javascript;
-
     location / {
-        try_files $uri $uri/ /index.html;
+        try_files $uri $uri/ =404;
     }
 
-    # Static resource caching
-    location ~* \.(jpg|jpeg|png|gif|ico|css|js|svg|woff|woff2|ttf|eot)$ {
-        expires 30d;
-        add_header Cache-Control "public, immutable";
+    location ~* \.(css|js|json|png|jpg|jpeg|gif|svg|ico|woff|woff2|ttf|eot)$ {
+        expires 7d;
+        add_header Cache-Control "public, max-age=604800";
     }
 
-    # 404 page
     error_page 404 /404.html;
     location = /404.html {
         internal;
@@ -114,294 +261,103 @@ server {
 }
 ```
 
-#### 4. Enable Site and Restart Nginx
+This is a multi-page static site, not an SPA. Do not force every missing route back to `index.html`.
+
+### 4. Reload Nginx
 
 ```bash
-# Create symbolic link to enable site
-sudo ln -s /etc/nginx/sites-available/web_math /etc/nginx/sites-enabled/
-
-# Test configuration
 sudo nginx -t
-
-# Restart Nginx
-sudo systemctl restart nginx
-
-# Enable on boot
 sudo systemctl enable nginx
+sudo systemctl reload nginx
 ```
 
-#### 5. Configure HTTPS (Optional but Recommended)
-
-Use Let's Encrypt free certificate:
+### 5. Add HTTPS
 
 ```bash
-# Install certbot
 sudo apt install certbot python3-certbot-nginx
-
-# Obtain certificate and auto-configure Nginx
-sudo certbot --nginx -d your-domain.com
-
-# Setup auto-renewal
-sudo certbot renew --dry-run
+sudo certbot --nginx -d math.example.com
 ```
 
-### Method 2: Vercel Deployment (Recommended)
-
-Vercel provides free static website hosting with simple and fast deployment.
-
-#### Option 1: Via Vercel Dashboard (Easiest)
-
-1. Visit [Vercel](https://vercel.com) and sign up/login
-
-2. Click "Add New Project"
-
-3. Import your GitHub repository
-   - Select "Import Git Repository"
-   - Authorize GitHub and select `web_math` repository
-
-4. Configure project
-   - Framework Preset: Select "Other"
-   - Root Directory: `./` (keep default)
-   - Build Command: Leave empty
-   - Output Directory: `./` (keep default)
-
-5. Click "Deploy" and wait for completion
-
-6. After successful deployment, you'll get a domain like: `your-project.vercel.app`
-
-#### Option 2: Via Vercel CLI
-
-1. Install Vercel CLI
+For LAN-only temporary use, you can still run:
 
 ```bash
-npm install -g vercel
+python -m http.server 8000
 ```
 
-2. Login to Vercel
+But that is not a production setup.
 
-```bash
-vercel login
-```
+## GitHub Pages
 
-3. Deploy from project directory
+Official docs:
 
-```bash
-cd web_math
-vercel
-```
+- [Configuring a publishing source for GitHub Pages](https://docs.github.com/en/pages/getting-started-with-github-pages/configuring-a-publishing-source-for-your-github-pages-site)
 
-4. Follow the prompts
-   - Set up and deploy? Y
-   - Which scope? Select your account
-   - Link to existing project? N
-   - Project name? web_math (or custom name)
-   - In which directory is your code located? ./
-
-5. Production deployment
-
-```bash
-vercel --prod
-```
-
-#### Custom Domain (Optional)
-
-1. Open your project in Vercel Dashboard
-
-2. Go to "Settings" -> "Domains"
-
-3. Add your custom domain
-
-4. Follow instructions to add DNS records at your domain registrar
-
-#### Vercel Configuration File (Optional)
-
-Create `vercel.json` in project root for advanced configuration:
-
-```json
-{
-  "version": 2,
-  "routes": [
-    {
-      "src": "/(.*)",
-      "dest": "/$1"
-    }
-  ],
-  "headers": [
-    {
-      "source": "/(.*)",
-      "headers": [
-        {
-          "key": "Cache-Control",
-          "value": "public, max-age=0, must-revalidate"
-        }
-      ]
-    },
-    {
-      "source": "/assets/(.*)",
-      "headers": [
-        {
-          "key": "Cache-Control",
-          "value": "public, max-age=31536000, immutable"
-        }
-      ]
-    }
-  ]
-}
-```
-
-### Method 3: Other Deployment Platforms
-
-#### GitHub Pages
-
-1. Enable Pages in GitHub repository settings
-2. Select branch and directory (usually `main` branch and `/` root)
-3. Save and auto-deploy
-
-#### Cloudflare Pages
-
-1. Login to Cloudflare Dashboard
-2. Go to Pages and create new project
-3. Connect GitHub repository
-4. Configure build settings (leave empty)
-5. Click deploy
-
-#### Netlify
-
-1. Login to Netlify
-2. Click "Add new site" -> "Import an existing project"
-3. Select Git repository
-4. Leave build command and publish directory empty
-5. Click "Deploy site"
-
-## Customization
-
-### Modify Navigation Links
-
-Edit `index.html` file and find the URL link section:
-
-```html
-<div class="url-card io-px-3 io-py-2 mb-2">
-    <a href="https://your-website.com" target="_blank" rel="nofollow" class="text-xs">
-        <strong>Website Name</strong>
-        <span class="url-desc">Website Description</span>
-    </a>
-</div>
-```
-
-### Modify About Page
-
-Edit `about/index.html` file to update personal information and contact details.
-
-### Modify Submission Page
-
-Edit `commit.html` file to configure form fields and submission logic:
-
-```javascript
-// Around line 371, replace with actual API endpoint
-$.ajax({
-    url: '/api/submit',
-    method: 'POST',
-    data: formData,
-    success: function(response) {
-        // Handle success response
-    }
-});
-```
-
-### Custom Styles
-
-Main style files are in `assets/css/` directory:
-
-- `custom-style.css` - Custom styles
-- `style-3.03029.1.css` - Theme styles
-
-### Add New Categories
-
-Add new category blocks in `index.html`:
-
-```html
-<div class="io-title text-sm" id="your-category-id">
-    <i class="far fa-star fa-lg fa-fw mr-1"></i>
-    Category Name
-</div>
-<div class="row io-mx-n2">
-    <!-- Add URL cards here -->
-</div>
-```
-
-## Project Structure
-
-```
-web_math/
-├── index.html              # Homepage
-├── commit.html             # URL submission page
-├── 404.html               # 404 error page
-├── about/
-│   └── index.html         # About page
-├── assets/
-│   ├── css/               # Stylesheets
-│   ├── js/                # JavaScript files
-│   ├── images/            # Image resources
-│   └── fontawesome-5.15.4/ # Icon library
-├── README.md              # Documentation (Chinese)
-├── Readme-en.md           # Documentation (English)
-└── vercel.json            # Vercel config (optional)
-```
+1. Open repository `Settings`.
+2. Go to `Pages`.
+3. Set `Source` to `Deploy from a branch`.
+4. Choose the `main` branch and the repo root.
+5. Save and wait for the `github.io` URL.
 
 ## FAQ
 
-### 1. Images or Styles Not Loading
+### Why does the site show “failed to load data”?
 
-Check if resource paths are correct and ensure relative paths are accurate.
+Check these first:
 
-### 2. How to Implement Backend for Submission
+- You are serving the site over HTTP instead of opening it with `file://`
+- [assets/data/site-data.json](/D:/Git/web_math/assets/data/site-data.json) exists
+- You actually deployed the full static directory, including `assets/` and `assets/data/`
 
-Currently, submission data is saved in browser localStorage. For persistent storage:
-- Use Vercel Serverless Functions
-- Configure backend API (Node.js, Python, PHP, etc.)
-- Use third-party form services (Formspree, Typeform, etc.)
+### Why is the deployed site blank on Cloudflare or Vercel?
 
-### 3. How to Add Analytics
+The most common cause is a wrong publish directory. This repo does not have a build step. Publish the repo root directly unless you created a dedicated `dist/` folder yourself.
 
-Integrate analytics tools:
-- Google Analytics
-- Baidu Analytics
-- 51.la (already integrated)
+### Where should I edit content?
 
-### 4. How to Optimize SEO
+Start with [assets/data/site-data.json](/D:/Git/web_math/assets/data/site-data.json). Only change JS / CSS when behavior or presentation needs to change.
 
-- Complete meta tags (title, description, keywords)
-- Add sitemap.xml
-- Submit to search engines
-- Optimize page load speed
+## Project Structure
 
-## Tech Stack
+```text
+web_math/
+├── index.html
+├── journals.html
+├── subjects.html
+├── latex.html
+├── blogs.html
+├── ai.html
+├── 404.html
+├── README.md
+├── Readme-en.md
+├── about/                  # legacy page, kept as needed
+├── commit.html             # legacy page, kept as needed
+└── assets/
+    ├── data/
+    │   └── site-data.json
+    ├── css/
+    │   └── math-academic.css
+    ├── js/
+    │   └── site-core.js
+    ├── images/
+    └── fontawesome-5.15.4/
+```
+
+## Stack
 
 - HTML5
 - CSS3
-- JavaScript (jQuery)
-- Bootstrap 4
+- Vanilla JavaScript (ES Modules)
 - Font Awesome 5
+- Static JSON data
 
 ## References
 
-- [Nginx Documentation](https://nginx.org/en/docs/)
-- [Vercel Deployment Docs](https://vercel.com/docs)
-- [Let's Encrypt](https://letsencrypt.org/)
+- [Cloudflare Pages](https://developers.cloudflare.com/pages/)
+- [Cloudflare Workers](https://developers.cloudflare.com/workers/)
+- [Vercel Docs](https://vercel.com/docs)
+- [Nginx Docs](https://nginx.org/en/docs/)
+- [GitHub Pages Docs](https://docs.github.com/en/pages)
 
 ## License
 
-MIT License
-
-## Contributing
-
-Issues and Pull Requests are welcome!
-
-## Contact
-
-- GitHub: https://github.com/thusbs
-- Repository: https://github.com/thusbs/web_math
-
----
-
-⭐ If this project helps you, please give it a Star!
+MIT
