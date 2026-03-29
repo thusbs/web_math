@@ -1,1 +1,26 @@
-.idea
+# system
+.DS_Store
+Thumbs.db
+
+# editor
+.vscode/
+.idea/
+
+# logs
+*.log
+
+# node
+node_modules/
+
+# build/cache
+dist/
+build/
+.cache/
+
+# env
+.env
+.env.*
+
+# optional
+*.tmp
+*.swp
