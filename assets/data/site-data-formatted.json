@@ -918,6 +918,20 @@
       ]
     },
     {
+      "id": "latexlive",
+      "group": "latex-tools",
+      "kind": "LaTeX",
+      "title": "LaTeXLive Editor",
+      "summary": "在线公式编辑、预览和模板辅助工具。",
+      "url": "https://www.latexlive.com/",
+      "official": false,
+      "tags": [
+        "LaTeX",
+        "编辑器",
+        "公式预览"
+      ]
+    },
+    {
       "id": "jabref",
       "group": "latex-tools",
       "kind": "LaTeX",

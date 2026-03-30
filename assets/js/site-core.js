@@ -5,8 +5,80 @@ const STORAGE_KEYS = {
     recents: "web_math_recents",
     workspaceOrder: "web_math_workspace_order",
     theme: "web_math_theme",
-    locale: "web_math_locale"
+    locale: "web_math_locale",
+    latexDraft: "web_math_latex_draft",
+    latexMode: "web_math_latex_mode"
 };
+
+const LATEX_LIVE_URL = "https://www.latexlive.com/";
+const LATEX_WORKBENCH_DEFAULT = String.raw`\sum_{n=1}^{\infty} \frac{1}{n^2} = \frac{\pi^2}{6}`;
+const LATEX_RENDER_MODES = [
+    {
+        id: "inline",
+        labelKey: "latexModeInline",
+        wrap: (value) => `\\(${value}\\)`
+    },
+    {
+        id: "display",
+        labelKey: "latexModeDisplay",
+        wrap: (value) => `\\[\n${value}\n\\]`
+    },
+    {
+        id: "equation",
+        labelKey: "latexModeEquation",
+        wrap: (value) => `\\begin{equation}\n${value}\n\\end{equation}`
+    },
+    {
+        id: "align",
+        labelKey: "latexModeAlign",
+        wrap: (value) => `\\begin{align}\n${value}\n\\end{align}`
+    }
+];
+const LATEX_SNIPPETS = [
+    {
+        id: "fraction",
+        icon: "fas fa-divide",
+        labelKey: "latexSnippetFraction",
+        content: String.raw`\frac{a}{b}`
+    },
+    {
+        id: "sum",
+        icon: "fas fa-superscript",
+        labelKey: "latexSnippetSum",
+        content: String.raw`\sum_{n=1}^{\infty} \frac{1}{n^2}`
+    },
+    {
+        id: "integral",
+        icon: "fas fa-wave-square",
+        labelKey: "latexSnippetIntegral",
+        content: String.raw`\int_0^1 x^2 \, dx`
+    },
+    {
+        id: "matrix",
+        icon: "fas fa-th",
+        labelKey: "latexSnippetMatrix",
+        content: String.raw`\begin{bmatrix}
+a & b \\
+c & d
+\end{bmatrix}`
+    },
+    {
+        id: "cases",
+        icon: "fas fa-code-branch",
+        labelKey: "latexSnippetCases",
+        content: String.raw`f(x)=\begin{cases}
+x^2, & x \ge 0 \\
+-x, & x < 0
+\end{cases}`
+    },
+    {
+        id: "align",
+        icon: "fas fa-equals",
+        labelKey: "latexSnippetAlign",
+        content: String.raw`f(x) &= x^2 + 1 \\
+f'(x) &= 2x`
+    }
+];
 
 const UI_TEXT = {
     zh: {
@@ -74,6 +146,29 @@ const UI_TEXT = {
         lectureLinks: "讲义与课程入口",
         latexSummary: "把 LaTeX 的官网、发行版、模板、编辑器、符号速查、BibTeX 和 TikZ 统一到同一页。",
         toolbox: "LaTeX 工具箱",
+        latexWorkbench: "公式工作台",
+        latexWorkbenchSummary: "在站内直接写、看、复制公式；复杂编辑或图片识别再跳转到 LaTeXLive。",
+        latexWorkbenchInput: "输入区域",
+        latexWorkbenchPreview: "实时预览",
+        latexWorkbenchOutput: "输出代码",
+        latexWorkbenchPlaceholder: "输入 LaTeX 表达式，例如 \\frac{a+b}{2} 或 \\int_0^1 x^2 \\, dx",
+        latexWorkbenchOpenExternal: "打开 LaTeXLive",
+        latexWorkbenchCopyWrapped: "复制包装代码",
+        latexWorkbenchClear: "清空",
+        latexWorkbenchHint: "实时预览由 MathJax 提供，输入内容会保存在当前浏览器。",
+        latexWorkbenchLoading: "正在连接 MathJax 预览…",
+        latexWorkbenchReady: "MathJax 预览已就绪",
+        latexWorkbenchUnavailable: "MathJax 未加载，当前仅显示原始代码。",
+        latexModeInline: "行内",
+        latexModeDisplay: "展示",
+        latexModeEquation: "equation",
+        latexModeAlign: "align",
+        latexSnippetFraction: "分数",
+        latexSnippetSum: "求和",
+        latexSnippetIntegral: "积分",
+        latexSnippetMatrix: "矩阵",
+        latexSnippetCases: "分段",
+        latexSnippetAlign: "对齐推导",
         formulas: "公式与符号速查",
         bibtex: "BibTeX 工具",
         tikz: "TikZ 作品库",
@@ -156,6 +251,29 @@ const UI_TEXT = {
         lectureLinks: "Lecture and Notes Entry Points",
         latexSummary: "Collect official sites, templates, editors, symbols, BibTeX helpers, and TikZ examples on one page.",
         toolbox: "LaTeX Toolbox",
+        latexWorkbench: "Formula Workbench",
+        latexWorkbenchSummary: "Write, preview, and copy formulas on-page, then jump to LaTeXLive for heavier editing.",
+        latexWorkbenchInput: "Input",
+        latexWorkbenchPreview: "Live Preview",
+        latexWorkbenchOutput: "Wrapped Output",
+        latexWorkbenchPlaceholder: "Type a LaTeX expression such as \\frac{a+b}{2} or \\int_0^1 x^2 \\, dx",
+        latexWorkbenchOpenExternal: "Open LaTeXLive",
+        latexWorkbenchCopyWrapped: "Copy Wrapped Code",
+        latexWorkbenchClear: "Clear",
+        latexWorkbenchHint: "Preview is powered by MathJax, and the draft is stored in this browser.",
+        latexWorkbenchLoading: "Connecting MathJax preview...",
+        latexWorkbenchReady: "MathJax preview ready",
+        latexWorkbenchUnavailable: "MathJax did not load, showing raw code only.",
+        latexModeInline: "Inline",
+        latexModeDisplay: "Display",
+        latexModeEquation: "Equation",
+        latexModeAlign: "Align",
+        latexSnippetFraction: "Fraction",
+        latexSnippetSum: "Summation",
+        latexSnippetIntegral: "Integral",
+        latexSnippetMatrix: "Matrix",
+        latexSnippetCases: "Cases",
+        latexSnippetAlign: "Aligned Steps",
         formulas: "Formula and Symbol Reference",
         bibtex: "BibTeX Utility",
         tikz: "TikZ Gallery",
@@ -261,6 +379,7 @@ const PAGE_CONFIG = {
         summaryEn: "Collect official sites, templates, editors, symbols, BibTeX helpers, and TikZ examples on one page.",
         sections: [
             { id: "latex-tools", labelZh: "工具箱", labelEn: "Tools" },
+            { id: "latex-lab", labelZh: "公式工作台", labelEn: "Workbench" },
             { id: "latex-templates", labelZh: "模板", labelEn: "Templates" },
             { id: "latex-formulas", labelZh: "符号速查", labelEn: "Formula Reference" },
             { id: "latex-bibtex", labelZh: "BibTeX", labelEn: "BibTeX" },
@@ -297,6 +416,7 @@ let cardMap = new Map();
 let state = null;
 let currentPage = "home";
 let loadError = null;
+let mathJaxReadyPromise = null;
 let uiState = {
     homeSearch: "",
     homeSort: "default",
@@ -436,6 +556,7 @@ function renderApp() {
     initQuickSearch(root);
     initScopedFilters(root);
     initBibtexTool(root);
+    initLatexWorkbench(root);
 }
 
 function renderHeader() {
@@ -629,10 +750,11 @@ function renderHeroPanel() {
     if (currentPage === "latex") {
         return `
             <div class="panel-heading">
-                <p class="eyebrow">${escapeHtml(getText("templates"))}</p>
+                <p class="eyebrow">${escapeHtml(getText("latexWorkbench"))}</p>
                 <strong>${escapeHtml(getText("latexSummary"))}</strong>
             </div>
             <div class="panel-actions">
+                <a class="secondary-button" href="#latex-lab">${escapeHtml(getText("latexWorkbench"))}</a>
                 <a class="secondary-button" href="#latex-formulas">${escapeHtml(getText("formulas"))}</a>
                 <a class="secondary-button" href="#latex-bibtex">${escapeHtml(getText("bibtex"))}</a>
             </div>
@@ -800,6 +922,7 @@ function renderLatexPage() {
             scope: "latex",
             chips: ["官方", "编辑器", "模板", "TikZ", "BibTeX"]
         }),
+        renderLatexWorkbenchSection(),
         renderCardCollectionSection({
             id: "latex-templates",
             title: getText("templates"),
@@ -1078,6 +1201,101 @@ function renderSubmissionLabSection() {
             </div>
         `
     );
+}
+
+function renderLatexWorkbenchSection() {
+    const draft = getSavedLatexDraft();
+    const mode = getSavedLatexMode();
+    const wrapped = buildLatexWrappedValue(draft, mode);
+
+    return renderSection(
+        "latex-lab",
+        getText("latexWorkbench"),
+        getText("latexWorkbenchSummary"),
+        `
+            <div class="latex-workbench-shell">
+                <div class="latex-snippet-grid">
+                    ${LATEX_SNIPPETS.map(renderLatexSnippetButton).join("")}
+                </div>
+                <div class="latex-workbench-grid">
+                    <section class="latex-workbench-panel">
+                        <div class="workspace-head">
+                            <div>
+                                <span class="workspace-kind">
+                                    <i class="fas fa-pen-nib"></i>
+                                    ${escapeHtml(getText("latexWorkbenchInput"))}
+                                </span>
+                                <h3 class="portal-title">${escapeHtml(getText("latexWorkbench"))}</h3>
+                            </div>
+                        </div>
+                        <textarea
+                            id="latex-workbench-input"
+                            class="panel-textarea latex-editor"
+                            placeholder="${escapeHtml(getText("latexWorkbenchPlaceholder"))}"
+                        >${escapeHtml(draft)}</textarea>
+                        <div class="toolbar-row latex-workbench-toolbar">
+                            <div class="latex-mode-group">
+                                ${LATEX_RENDER_MODES.map((item) => renderLatexModeChip(item, mode)).join("")}
+                            </div>
+                            <div class="panel-actions">
+                                <button class="secondary-button" data-latex-action="copy-source" type="button">${escapeHtml(getText("copy"))}</button>
+                                <button class="secondary-button" data-latex-action="copy-wrapped" type="button">${escapeHtml(getText("latexWorkbenchCopyWrapped"))}</button>
+                                <button class="secondary-button" data-latex-action="clear" type="button">${escapeHtml(getText("latexWorkbenchClear"))}</button>
+                                <a class="secondary-button" href="${LATEX_LIVE_URL}" target="_blank" rel="noopener noreferrer">${escapeHtml(getText("latexWorkbenchOpenExternal"))}</a>
+                            </div>
+                        </div>
+                    </section>
+                    <section class="latex-workbench-panel">
+                        <div class="workspace-head">
+                            <div>
+                                <span class="workspace-kind">
+                                    <i class="fas fa-satellite-dish"></i>
+                                    ${escapeHtml(getText("latexWorkbenchPreview"))}
+                                </span>
+                                <h3 class="portal-title">${escapeHtml(getText("latexWorkbenchPreview"))}</h3>
+                            </div>
+                            <span class="latex-status" id="latex-workbench-status">${escapeHtml(getText("latexWorkbenchLoading"))}</span>
+                        </div>
+                        <div id="latex-workbench-preview" class="latex-preview is-empty">
+                            ${escapeHtml(getText("latexWorkbenchHint"))}
+                        </div>
+                        <div class="workspace-head latex-output-head">
+                            <div>
+                                <span class="workspace-kind">
+                                    <i class="fas fa-code"></i>
+                                    ${escapeHtml(getText("latexWorkbenchOutput"))}
+                                </span>
+                                <h3 class="portal-title">${escapeHtml(getText("latexWorkbenchOutput"))}</h3>
+                            </div>
+                        </div>
+                        <pre id="latex-workbench-output" class="code-snippet latex-output-code">${escapeHtml(wrapped || getText("latexWorkbenchHint"))}</pre>
+                    </section>
+                </div>
+            </div>
+        `
+    );
+}
+
+function renderLatexSnippetButton(item) {
+    return `
+        <button class="latex-snippet-button" type="button" data-latex-snippet="${escapeHtml(item.id)}">
+            <span class="latex-snippet-icon"><i class="${item.icon}"></i></span>
+            <strong>${escapeHtml(getText(item.labelKey))}</strong>
+            <small>${escapeHtml(item.content.replace(/\s+/g, " ").trim())}</small>
+        </button>
+    `;
+}
+
+function renderLatexModeChip(item, activeMode) {
+    return `
+        <button
+            class="sort-chip ${item.id === activeMode ? "is-active" : ""}"
+            type="button"
+            data-latex-mode="${escapeHtml(item.id)}"
+        >
+            ${escapeHtml(getText(item.labelKey))}
+        </button>
+    `;
 }
 
 function renderLatexFormulaSection() {
@@ -1991,6 +2209,255 @@ function applyScopeFilter(scope, root) {
         const tags = (entry.dataset.tags || "").toLowerCase();
         entry.hidden = !activeTags.some((tag) => tags.includes(tag));
     });
+}
+
+function getSavedLatexDraft() {
+    const draft = localStorage.getItem(STORAGE_KEYS.latexDraft);
+    return draft === null ? LATEX_WORKBENCH_DEFAULT : draft;
+}
+
+function getSavedLatexMode() {
+    const saved = localStorage.getItem(STORAGE_KEYS.latexMode);
+    return LATEX_RENDER_MODES.some((item) => item.id === saved) ? saved : "display";
+}
+
+function getLatexModeConfig(modeId) {
+    return LATEX_RENDER_MODES.find((item) => item.id === modeId) || LATEX_RENDER_MODES[1];
+}
+
+function buildLatexWrappedValue(source, modeId) {
+    const normalized = source.trim();
+    if (!normalized) {
+        return "";
+    }
+
+    return getLatexModeConfig(modeId).wrap(normalized);
+}
+
+function insertTextAtCursor(textarea, text) {
+    const start = textarea.selectionStart ?? textarea.value.length;
+    const end = textarea.selectionEnd ?? textarea.value.length;
+    const nextValue = `${textarea.value.slice(0, start)}${text}${textarea.value.slice(end)}`;
+
+    textarea.value = nextValue;
+    textarea.selectionStart = textarea.selectionEnd = start + text.length;
+}
+
+function waitForMathJax() {
+    if (mathJaxReadyPromise) {
+        return mathJaxReadyPromise;
+    }
+
+    const script = document.getElementById("mathjax-script");
+    if (!script) {
+        return Promise.resolve(null);
+    }
+
+    mathJaxReadyPromise = new Promise((resolve) => {
+        let settled = false;
+
+        const finish = (value) => {
+            if (!settled) {
+                settled = true;
+                resolve(value);
+            }
+        };
+
+        const finalize = () => {
+            const mathJax = window.MathJax;
+
+            if (mathJax?.startup?.promise) {
+                mathJax.startup.promise.then(() => finish(mathJax)).catch(() => finish(null));
+                return;
+            }
+
+            finish(mathJax || null);
+        };
+
+        if (window.MathJax?.startup?.promise) {
+            finalize();
+            return;
+        }
+
+        script.addEventListener("load", finalize, { once: true });
+        script.addEventListener("error", () => finish(null), { once: true });
+
+        window.setTimeout(() => {
+            if (window.MathJax?.startup?.promise) {
+                finalize();
+                return;
+            }
+
+            finish(null);
+        }, 12000);
+    });
+
+    return mathJaxReadyPromise;
+}
+
+function initLatexWorkbench(root) {
+    if (currentPage !== "latex") {
+        return;
+    }
+
+    const input = root.querySelector("#latex-workbench-input");
+    const preview = root.querySelector("#latex-workbench-preview");
+    const output = root.querySelector("#latex-workbench-output");
+    const status = root.querySelector("#latex-workbench-status");
+    const copySourceButton = root.querySelector('[data-latex-action="copy-source"]');
+    const copyWrappedButton = root.querySelector('[data-latex-action="copy-wrapped"]');
+    const clearButton = root.querySelector('[data-latex-action="clear"]');
+
+    if (!input || !preview || !output || !status || !copySourceButton || !copyWrappedButton || !clearButton) {
+        return;
+    }
+
+    let currentMode = getSavedLatexMode();
+    let typesetRunning = false;
+    let pendingRender = false;
+
+    const syncModeButtons = () => {
+        root.querySelectorAll("[data-latex-mode]").forEach((button) => {
+            button.classList.toggle("is-active", button.dataset.latexMode === currentMode);
+        });
+    };
+
+    const persistState = () => {
+        localStorage.setItem(STORAGE_KEYS.latexDraft, input.value);
+        localStorage.setItem(STORAGE_KEYS.latexMode, currentMode);
+    };
+
+    const renderEmptyPreview = async () => {
+        preview.classList.add("is-empty");
+        preview.classList.remove("is-plain");
+        preview.textContent = getText("latexWorkbenchHint");
+        output.textContent = getText("latexWorkbenchHint");
+        const mathJax = await waitForMathJax();
+        status.textContent = mathJax ? getText("latexWorkbenchReady") : getText("latexWorkbenchUnavailable");
+    };
+
+    const renderPreview = async () => {
+        const wrapped = buildLatexWrappedValue(input.value, currentMode);
+
+        persistState();
+        output.textContent = wrapped || getText("latexWorkbenchHint");
+
+        if (!wrapped) {
+            await renderEmptyPreview();
+            return;
+        }
+
+        if (typesetRunning) {
+            pendingRender = true;
+            return;
+        }
+
+        typesetRunning = true;
+        status.textContent = getText("latexWorkbenchLoading");
+
+        const mathJax = await waitForMathJax();
+
+        try {
+            if (!mathJax?.typesetPromise) {
+                preview.classList.remove("is-empty");
+                preview.classList.add("is-plain");
+                preview.textContent = wrapped;
+                status.textContent = getText("latexWorkbenchUnavailable");
+                return;
+            }
+
+            if (typeof mathJax.typesetClear === "function") {
+                mathJax.typesetClear([preview]);
+            }
+
+            if (typeof mathJax.startup?.document?.clearMathItemsWithin === "function") {
+                mathJax.startup.document.clearMathItemsWithin([preview]);
+            }
+
+            if (typeof mathJax.texReset === "function") {
+                mathJax.texReset();
+            }
+
+            if (typeof mathJax.tex2mml === "function") {
+                try {
+                    mathJax.tex2mml(String.raw`\begingroupSandbox`);
+                } catch (error) {
+                    // Ignore if the extension is not available and continue rendering.
+                }
+            }
+
+            preview.classList.remove("is-empty", "is-plain");
+            preview.textContent = wrapped;
+            await mathJax.typesetPromise([preview]);
+            status.textContent = getText("latexWorkbenchReady");
+        } catch (error) {
+            preview.classList.remove("is-empty");
+            preview.classList.add("is-plain");
+            preview.textContent = wrapped;
+            status.textContent = getText("latexWorkbenchUnavailable");
+        } finally {
+            typesetRunning = false;
+
+            if (pendingRender) {
+                pendingRender = false;
+                void renderPreview();
+            }
+        }
+    };
+
+    input.addEventListener("input", () => {
+        void renderPreview();
+    });
+
+    root.querySelectorAll("[data-latex-mode]").forEach((button) => {
+        button.addEventListener("click", () => {
+            currentMode = button.dataset.latexMode || "display";
+            syncModeButtons();
+            void renderPreview();
+        });
+    });
+
+    root.querySelectorAll("[data-latex-snippet]").forEach((button) => {
+        button.addEventListener("click", () => {
+            const snippet = LATEX_SNIPPETS.find((item) => item.id === button.dataset.latexSnippet);
+
+            if (!snippet) {
+                return;
+            }
+
+            insertTextAtCursor(input, snippet.content);
+            input.focus();
+            void renderPreview();
+        });
+    });
+
+    copySourceButton.addEventListener("click", async () => {
+        if (!input.value) {
+            return;
+        }
+
+        await copyText(input.value);
+        bumpButtonLabel(copySourceButton, getText("copied"));
+    });
+
+    copyWrappedButton.addEventListener("click", async () => {
+        const wrapped = buildLatexWrappedValue(input.value, currentMode);
+        if (!wrapped) {
+            return;
+        }
+
+        await copyText(wrapped);
+        bumpButtonLabel(copyWrappedButton, getText("copied"));
+    });
+
+    clearButton.addEventListener("click", () => {
+        input.value = "";
+        input.focus();
+        void renderPreview();
+    });
+
+    syncModeButtons();
+    void renderPreview();
 }
 
 function initBibtexTool(root) {
