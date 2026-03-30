@@ -4,10 +4,10 @@
   "description": "Static website performance optimization system",
   "type": "module",
   "scripts": {
-    "build": "tsx src/cli.ts build",
-    "dev": "tsx src/cli.ts dev",
-    "clean": "tsx src/cli.ts clean",
-    "analyze": "tsx src/cli.ts analyze"
+    "build": "npm run build:data && npm run validate:data",
+    "build:data": "node scripts/build-site-data.js",
+    "validate:data": "node check_json.js",
+    "setup:hooks": "git config core.hooksPath .githooks"
   },
   "keywords": ["optimization", "performance", "vite", "build"],
   "author": "",

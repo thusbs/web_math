@@ -1,76 +1,136 @@
-# Website Performance Optimization
+# web_math
 
-静态网站性能优化系统，用于优化图片、字体、CSS、JavaScript 等静态资源。
+`web_math` 是一个纯静态、数据驱动的数学工作站。页面渲染逻辑在前端，内容主要来自 JSON 数据文件。
 
-## 功能特性
+这个仓库现在明确拆成两条线：
 
-- 🖼️ **图片优化**: 压缩、WebP 转换、响应式图片生成
-- 🔤 **字体优化**: 字体子集化、预加载、font-display 策略
-- 🎨 **CSS 优化**: 压缩、移除未使用样式、Critical CSS 提取
-- ⚡ **JavaScript 优化**: 压缩、tree-shaking、代码分割
-- 📦 **缓存策略**: 内容哈希、长期缓存配置
-- 📊 **性能监控**: Lighthouse 集成、性能报告生成
+- 站点维护：维护数学站点本身，核心是 `assets/data/site-data-formatted.json`
+- 优化工具：保留中的性能优化骨架，目前只有类型和配置，还不是完整可运行工具
 
-## 快速开始
+## 站点维护
 
-### 安装依赖
+### 数据文件约定
+
+- 可编辑源文件：`assets/data/site-data-formatted.json`
+- 构建产物：`assets/data/site-data.json`
+- 前端实际读取：`assets/js/site-core.js` 中的 `./assets/data/site-data.json`
+
+以后只改 `site-data-formatted.json`，不要手改 `site-data.json`。部署前先构建，让产物和源文件保持同步。
+
+### 本地预览
+
+不要直接用 `file://` 打开 HTML。站点会通过 `fetch("./assets/data/site-data.json")` 读取数据，直接双击文件会触发加载失败。
+
+可用任一静态服务器：
 
 ```bash
-npm install
+python -m http.server 8000
 ```
 
-### 构建命令
+或
 
 ```bash
-# 生产构建
-npm run build
-
-# 开发模式
-npm run dev
-
-# 清理输出目录
-npm run clean
-
-# 性能分析
-npm run analyze
+npx http-server -p 8000
 ```
 
-## 配置
+然后访问 `http://127.0.0.1:8000`。
 
-编辑 `config/optimization.config.ts` 文件来自定义优化参数：
+### 日常维护流程
 
-```typescript
-export const defaultConfig: OptimizationConfig = {
-  images: {
-    quality: 82,
-    formats: ['webp', 'jpeg', 'png'],
-    // ...
-  },
-  // ...
-};
+1. 编辑 `assets/data/site-data-formatted.json`
+2. 运行 `npm run build`
+3. 启动本地静态服务器检查页面
+4. 提交并部署
+
+`npm run build` 会先从格式化源文件生成 `site-data.json`，再执行校验。
+
+### 校验规则
+
+`check_json.js` 已接入构建流程，并可用于 `pre-commit`。当前会检查：
+
+- JSON 语法是否合法
+- 顶层各数据集合中的 `id` 是否重复
+- `promptTemplates` 的双语字段是否缺失
+- `site-data.json` 是否与 `site-data-formatted.json` 同步
+
+可单独运行：
+
+```bash
+npm run validate:data
 ```
+
+### 启用 pre-commit
+
+仓库内已提供 `.githooks/pre-commit`，首次启用执行：
+
+```bash
+npm run setup:hooks
+```
+
+启用后，每次 `git commit` 前都会运行 `node check_json.js`。如果源文件非法、双语字段缺失，或者构建产物未同步，提交会被拦下。
+
+### 站点内容入口
+
+当前主要内容都在 `assets/data/site-data-formatted.json`：
+
+- `meta`：作者、更新时间、仓库地址
+- `cards`：研究入口、期刊、LaTeX、博客、AI 等卡片
+- `journalCompare`：期刊对比表
+- `quickSearchEngines`：快捷检索引擎
+- `submissionGuide`：投稿核验步骤
+- `subjects`：数学方向与教材书架
+- `promptTemplates`：提示词模板
+
+只有在修改交互、布局、筛选、主题或渲染逻辑时，才需要改 JS / CSS。
+
+## 优化工具
+
+仓库里确实还有一条“网站优化工具”线，但目前只是骨架，不是当前站点的生产流程。
+
+现状如下：
+
+- `src/types/config.ts`：优化配置类型
+- `config/optimization.config.ts`：默认优化配置
+- 缺少真正的 CLI 入口和构建实现，`src/cli.ts` 当前并不存在
+
+所以现在不要把这部分当成站点部署流程的一部分。当前可运行、可维护的主流程仍然是静态页面 + JSON 数据。
+
+如果后面继续做这条线，建议把它独立成真正的工具目录，再补上 CLI、输入输出目录和测试，而不是继续和站点维护流程混在同一个 README 里。
 
 ## 项目结构
 
-```
-.
-├── src/                    # 源代码
-│   ├── types/             # TypeScript 类型定义
-│   └── cli.ts             # CLI 入口文件
-├── config/                # 配置文件
+```text
+web_math/
+├── assets/
+│   ├── css/
+│   ├── data/
+│   │   ├── site-data-formatted.json
+│   │   └── site-data.json
+│   └── js/
+│       └── site-core.js
+├── config/
 │   └── optimization.config.ts
-├── dist/                  # 构建输出（自动生成）
-├── package.json
-└── tsconfig.json
+├── scripts/
+│   └── build-site-data.js
+├── src/
+│   └── types/
+│       └── config.ts
+├── .githooks/
+│   └── pre-commit
+├── check_json.js
+├── README.md
+└── Readme-en.md
 ```
 
-## 性能目标
+## 常用命令
 
-- Lighthouse 性能评分: ≥ 90
-- First Contentful Paint (FCP): < 1.5s
-- Largest Contentful Paint (LCP): < 2.5s
-- Total Blocking Time (TBT): < 200ms
+```bash
+# 从格式化源文件生成部署用 JSON，并执行校验
+npm run build
 
-## License
+# 只执行校验
+npm run validate:data
 
-MIT
+# 启用仓库内 pre-commit hook
+npm run setup:hooks
+```
