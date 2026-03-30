@@ -1,0 +1,27 @@
+{
+  "name": "website-optimization",
+  "version": "1.0.0",
+  "description": "Static website performance optimization system",
+  "type": "module",
+  "scripts": {
+    "build": "tsx src/cli.ts build",
+    "dev": "tsx src/cli.ts dev",
+    "clean": "tsx src/cli.ts clean",
+    "analyze": "tsx src/cli.ts analyze"
+  },
+  "keywords": ["optimization", "performance", "vite", "build"],
+  "author": "",
+  "license": "MIT",
+  "devDependencies": {
+    "@types/node": "^20.10.0",
+    "typescript": "^5.3.3",
+    "tsx": "^4.7.0"
+  },
+  "dependencies": {
+    "vite": "^5.0.10",
+    "sharp": "^0.33.1",
+    "postcss": "^8.4.32",
+    "cssnano": "^6.0.2",
+    "terser": "^5.26.0"
+  }
+}
