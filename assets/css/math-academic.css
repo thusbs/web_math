@@ -428,7 +428,7 @@ body.theme-dark .panel-submit {
 .formula-grid,
 .subject-grid {
     display: grid;
-    gap: 14px;
+    gap: 18px;
 }
 
 .metric-grid {
