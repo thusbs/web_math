@@ -305,8 +305,8 @@ body.theme-dark .sort-chip.is-active {
 .page-hero {
     overflow: hidden;
     border-radius: var(--radius-xl);
-    padding: 28px;
-    margin-bottom: 22px;
+    padding: 24px;
+    margin-bottom: 16px;
     position: relative;
 }
 
@@ -428,7 +428,7 @@ body.theme-dark .panel-submit {
 .formula-grid,
 .subject-grid {
     display: grid;
-    gap: 16px;
+    gap: 12px;
 }
 
 .metric-grid {
@@ -508,9 +508,9 @@ body.theme-dark .panel-textarea {
 }
 
 .page-section {
-    padding: 24px;
+    padding: 20px;
     border-radius: var(--radius-xl);
-    margin-bottom: 22px;
+    margin-bottom: 16px;
 }
 
 .section-heading {
@@ -564,14 +564,14 @@ body.theme-dark .panel-textarea {
 .subject-block,
 .formula-card,
 .prompt-card {
-    padding: 20px;
+    padding: 16px;
 }
 
 .link-card {
     display: flex;
     flex-direction: column;
     min-height: 100%;
-    padding: 20px;
+    padding: 16px;
     transition: transform var(--transition), box-shadow var(--transition), border-color var(--transition);
 }
 
@@ -838,7 +838,7 @@ body.theme-dark .data-table thead th {
 .mini-card-grid .link-card,
 .mini-card-grid .portal-card,
 .mini-card-grid .formula-card {
-    padding: 16px;
+    padding: 14px;
 }
 
 .formula-card h3,
